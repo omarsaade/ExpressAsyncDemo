@@ -1,0 +1,118 @@
+//synchronous
+/*
+console.log("Before");
+console.log("After");
+
+
+*/
+
+console.log("Before");
+//asynchronous function
+setTimeout(() => {
+  console.log("Reading a user from a database...");
+}, 2000);
+console.log("After");
+
+
+=======================
+
+
+Async Patterns
+
+
+
+console.log("Before");
+const user = getUser(1);
+console.log(user);
+console.log("After");
+
+// we have 3 patterns to deal with async code
+//callbacks
+//promises
+//Async/await
+
+function getUser(id) {
+  setTimeout(() => {
+    console.log("Reading a user from a database...");
+    return { id: id, gitHubUsername: "omar" };
+  }, 2000);
+  //   return 1;
+}
+
+
+
+
+====================================================================
+
+
+callbacks
+
+
+A callback function is a function passed into another function as 
+an argument, which is then invoked inside the outer function to 
+complete some kind of routine or action.
+
+Here is a quick example:
+
+
+function greeting(name) {
+  alert(`Hello, ${name}`);
+}
+
+function processUserInput(callback) {
+  const name = prompt("Please enter your name.");
+  callback(name);
+}
+
+processUserInput(greeting);
+
+
+
+
+               now our real example in the document
+
+
+ console.log("Before");
+getUser(1, function (user) {
+  console.log("User", user);
+});
+console.log("After");
+
+// we have 3 patterns to deal with async code
+//callbacks
+//promises
+//Async/await
+
+function getUser(id, callback) {
+  setTimeout(() => {
+    console.log("Reading a user from a database...");
+    callback({ id: id, gitHubUsername: "omar" });
+  }, 2000);
+}
+
+
+
+
+
+
+////////////////////////              
+
+
+function momo(id){
+  console.log("good" + id);  
+}
+
+function gogo(callback){
+    callback(2);
+}
+
+
+
+gogo(momo);
+
+/////////////////////////////
+
+
+
+
+=============================================================
