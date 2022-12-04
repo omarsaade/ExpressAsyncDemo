@@ -10,6 +10,7 @@ function gogo(callback){
 
 gogo(momo);
 
+
 */
 
 console.log("Before");
