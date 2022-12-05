@@ -559,3 +559,53 @@ function getCommits(repo) {
 =================================================================
 
 
+                    "Creating Settled Promises"
+
+we are going to explore the api for a promise object in javascipt
+
+
+ const p = Promise.resolve({ id: 1 });
+p.then((result) => console.log(result));
+
+
+or
+
+ const po = Promise.reject(new Error("reason for rejection..."));
+ po.then(null, (result) => console.log(result));
+
+
+or
+
+
+
+
+
+const pos = Promise.reject(new Error("reason for rejection..."));
+pos.catch((error) => console.log(error));
+
+result: heda esmo callstack el error
+
+Error: reason for rejection...
+    at Object.<anonymous> (C:\Users\10User\Documents\ExpressAsyncDemo\promise-api.js:4:27)
+    at Module._compile (node:internal/modules/cjs/loader:1155:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1209:10)
+    at Module.load (node:internal/modules/cjs/loader:1033:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:868:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12) 
+    at node:internal/main/run_main_module:22:47
+
+
+
+//deyman el afdal nesta3mel   hik:  reject(new Error("reason for rejection..."));
+w mesh hjk  reject("reason for rejection") li2an ma btarje3 el callstack fia.
+
+
+
+
+
+
+
+============================================================================
+
+
+
