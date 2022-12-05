@@ -116,3 +116,386 @@ gogo(momo);
 
 
 =============================================================
+
+/*
+
+function momo(id){
+  console.log("good" + id);  
+}
+
+function gogo(callback){
+    callback(2);
+}
+
+gogo(momo);
+
+
+*/
+
+console.log("Before");
+getUser(1, (user) => {
+  console.log("User", user);
+  //Get the repositories
+  getRepositories(user.gitHubUsername, (repos) => {
+    console.log("Repos", repos);
+  });
+});
+console.log("After");
+
+// we have 3 patterns to deal with async code
+//callbacks
+//promises
+//Async/await
+
+function getUser(id, callback) {
+  setTimeout(() => {
+    console.log("Reading a user from a database...");
+    callback({ id: id, gitHubUsername: "omar" });
+  }, 2000);
+}
+
+
+
+//asynchronous function
+function getRepositories(username, callback) {
+  setTimeout(() => {
+    console.log("Calling Github API...");
+    callback(["repo1", "repo2", "repo3"]);
+  }, 2000);
+}
+
+
+// Synchronous function
+
+function getRepositories(username) {
+
+    return ["repo1", "repo2", "repo3"];
+
+}
+
+
+===================================================
+
+
+
+
+
+
+                     Callback HELL
+
+                     console.log("Before");
+getUser(1, (user) => {
+  console.log("User", user);
+  //Get the repositories
+  getRepositories(user.gitHubUsername, (repos) => {
+    //... callback hell aw christmas tree problem
+    //...............
+    console.log("Repos", repos);
+  });
+});
+console.log("After");
+
+// we have 3 patterns to deal with async code
+//callbacks
+//promises
+//Async/await
+
+function getUser(id, callback) {
+  setTimeout(() => {
+    console.log("Reading a user from a database...");
+    callback({ id: id, gitHubUsername: "omar" });
+  }, 2000);
+}
+
+//asynchronous function
+function getRepositories(username, callback) {
+  setTimeout(() => {
+    console.log("Calling Github API...");
+    callback(["repo1", "repo2", "repo3"]);
+  }, 2000);
+}
+
+
+================================================
+
+
+                      Named Function
+
+
+replace an anonymous function with a named function       
+
+
+
+console.log("Before");
+getUser(1, getRepositories);
+console.log("After");
+
+// we have 3 patterns to deal with async code
+//callbacks
+//promises
+//Async/await
+
+//named function
+function getRepositories(user) {
+  getRepositories(user.gitHubUsername, getCommits);
+}
+
+function getCommits(repos) {
+  getCommits(repo, displayCommits);
+}
+
+function displayCommits(commits) {
+  console.log(commits);
+}
+
+function getUser(id, callback) {
+  setTimeout(() => {
+    console.log("Reading a user from a database...");
+    callback({ id: id, gitHubUsername: "omar" });
+  }, 2000);
+}
+
+//asynchronous function
+function getRepositories(username, callback) {
+  setTimeout(() => {
+    console.log("Calling Github API...");
+    callback(["repo1", "repo2", "repo3"]);
+  }, 2000);
+}
+
+function getCommits(repo, callback) {
+  setTimeout(() => {
+    console.log("Reading a user from a data...");
+    callback([1, 2, 3]);
+  }, 2000);
+}
+
+
+
+
+
+===========================================================
+there is a better way to deal with that code and that by using promises
+
+
+
+                          Promises
+
+Extremly powerfull we want to deal with asynchronous code
+
+
+
+//         Create a Promise
+//   resolve and reject hene handlers
+// resolve : promise t7a2a2
+// reject : promise  ma t7akak
+const p = new Promise((resolve, reject) => {
+  //Kick off some async work
+  //...
+  //   resolve(1);
+  // reject('error')
+  //   reject(new Error("message"));
+  //asynchrous operation
+  setTimeout(() => {
+    // resolve(1); // pending => resolved , fullfilled
+    //best practice is to pass an error object instead of string
+    reject(new Error("message")); //pending => rejected
+  }, 2000);
+});
+
+// how to handle the promise ? by using   method   " then "
+//           Consume it
+p.then((result) => console.log("Result", result)).catch((err) =>
+  console.log("Error", err.message)
+);
+
+/*
+
+p.then(
+    (resolved)=>console.log(resolved),
+    (rejected)=>console.log(rejected)
+)
+
+
+or
+
+
+p.then((resolved) => console.log(resolved)).catch((rejected) =>
+  console.log(rejected)
+);
+
+or
+
+
+const theResolved = resolved => console.log(resolved);
+const theRejected = rejected => console.log(rejected);
+
+
+myPromise.then(theResolved , theRejected);
+
+
+
+
+*/
+
+/*
+
+
+const p = new Promise((resolve, reject) => {
+
+    setTimeout(() => {
+      reject(new Error("message"));
+    }, 2000);
+  }).then((resolved) => console.log(resolved)).catch((rejected) =>
+  console.log(rejected)
+);
+  
+
+*/
+
+
+
+///////////////////////////////////////////////////////////////////
+
+const p = new Promise((resolve, reject) => {
+  //Kick off some async work
+  //...
+  //   resolve(1);
+  // reject('error')
+  //   reject(new Error("message"));
+  resolve(1);
+});
+
+p.then((result) => console.log("Result", result));
+
+
+
+
+resolve and reject are a handler
+
+///
+
+
+
+
+
+================================================================
+
+
+// create a promise
+const p = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject(new Error("message"));
+  }, 2000);
+});
+
+//consume it
+p.then((result) => console.log("Result", result)).catch((err) =>
+  console.log("Error", err.message)
+);
+// p.then(null,(rejected)=>console.log(rejected));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===============================================================
+
+Resolve callback hell problem
+
+we should modify our asynchronous function to return a promise
+
+convert from asynchronous function with callbacks
+
+to promise 
+
+
+   console.log("Before");
+getUser(1, (user) => {
+  getRepositories(user.gitHubUsername, (repos) => {
+    getCommits(repos[0], (commits) => {
+      console.log(commits);
+    });
+  });
+});
+console.log("After");
+
+/*
+function getUser(id, callback) {
+  setTimeout(() => {
+    console.log("Reading a user from a database...");
+    callback({ id: id, gitHubUsername: "mosh" });
+  }, 2000);
+}
+*/
+
+function getUser(id) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("Reading a user from a database...");
+      resolve({ id: id, gitHubUsername: "mosh" });
+    }, 2000);
+  });
+}
+
+/*
+function getRepositories(username, callback) {
+  setTimeout(() => {
+    console.log("Calling GitHub API...");
+    callback(["repo1", "repo2", "repo3"]);
+  }, 2000);
+}
+*/
+
+function getRepositories(username) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("Calling GitHub API...");
+      resolve(["repo1", "repo2", "repo3"]);
+    }, 2000);
+  });
+}
+
+/*
+function getCommits(repo, callback) {
+  setTimeout(() => {
+    console.log("Calling GitHub API...");
+    callback(["commit"]);
+  }, 2000);
+}
+*/
+
+function getCommits(repo) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("Calling GitHub API...");
+      resolve(["commit"]);
+    }, 2000);
+  });
+}
+
+
+
+
+========================================================
+
+                      Consume promises
+
+
+
+
+
+
+
